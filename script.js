@@ -92,8 +92,8 @@ const playAudioStream = (mp3File) => {
 	audio.setVolume(volume);
 	audio.play(mp3File);
 };
-const stopAudioStream = () => {
-	audio.stop();
+const pauseAudioStream = () => {
+	audio.pause();
 	playing = false;
 };
 const playStream = () => {
@@ -129,10 +129,10 @@ function init() {
 	if (/*@cc_on!@*/ false) {
 		// check for Internet Explorer
 		document.onfocusin = playStream;
-		document.onfocusout = playStream;
+		document.onfocusout = pauseAudioStream;
 	} else {
 		window.onfocus = playStream;
-		window.onblur = playStream;
+		window.onblur = pauseAudioStream;
 	}
 
 	window.removeEventListener("click", init);
