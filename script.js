@@ -107,35 +107,35 @@ const playStream = () => {
 	}
 };
 
-window.addEventListener(
-	"load",
-	function () {
-		const a = audio.setup();
-		if (!a) {
-			alert("Web Audio is not supported by your browser. ");
-			return;
-		}
-		a.addEventListener("waiting", (e) => {
-			playing = false;
-		});
-		a.addEventListener("playing", (e) => {
-			playing = true;
-		});
-		a.addEventListener("ended", (e) => {
-			playing = false;
-		});
-		a.addEventListener("error", (e) => {
-			audio.closeAudio();
-			playing = false;
-		});
-		if (/*@cc_on!@*/ false) {
-			// check for Internet Explorer
-			document.onfocusin = playStream;
-			document.onfocusout = playStream;
-		} else {
-			window.onfocus = playStream;
-			window.onblur = playStream;
-		}
-	},
-	false
-);
+function init() {
+	const a = audio.setup();
+	if (!a) {
+		alert("Web Audio is not supported by your browser. ");
+		return;
+	}
+	a.addEventListener("waiting", (e) => {
+		playing = false;
+	});
+	a.addEventListener("playing", (e) => {
+		playing = true;
+	});
+	a.addEventListener("ended", (e) => {
+		playing = false;
+	});
+	a.addEventListener("error", (e) => {
+		audio.closeAudio();
+		playing = false;
+	});
+	if (/*@cc_on!@*/ false) {
+		// check for Internet Explorer
+		document.onfocusin = playStream;
+		document.onfocusout = playStream;
+	} else {
+		window.onfocus = playStream;
+		window.onblur = playStream;
+	}
+
+	window.removeEventListener("click", init);
+}
+
+window.addEventListener("click", init);
